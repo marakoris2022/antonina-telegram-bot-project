@@ -1,3 +1,5 @@
-export default function Home() {
-  return <div>Home</div>;
+import Home from '@/front/pages/Home';
+
+export default function HomePage() {
+  return <Home />;
 }
