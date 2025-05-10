@@ -1,4 +1,4 @@
-import { UserSession } from "@/services/telegram/session";
+import { UserSession } from "@/types/types";
 import { Context } from "grammy";
 
 export async function deleteLastBotMessage(ctx: Context, session: UserSession, newMsgId: number) {
