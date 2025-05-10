@@ -9,7 +9,8 @@ import {
   createAboutMeMenu,
 } from '../keyboards';
 import { getUser } from '@/app/repositories/users';
-import { Gender, GENDER_DICT, Goal, GOAL_DICT } from '../session';
+import { GENDER_DICT, GOAL_DICT } from '@/lib/constants';
+import { Gender, Goal } from '@/types/types';
 
 export function setupButtonHandlers(bot: Bot) {
   bot.callbackQuery('menu_main', async (ctx) => {
