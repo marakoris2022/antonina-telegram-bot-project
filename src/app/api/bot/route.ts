@@ -2,65 +2,70 @@ export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
 import { Bot, webhookCallback } from 'grammy';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ServerApiVersion } from 'mongodb';
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const mongoUri = process.env.MONGODB_URI;
 const dbName = 'telegram_bot_db';
 
-if (!token || !mongoUri) throw new Error('Не хватает переменных окружения!');
+if (!token) throw new Error('TELEGRAM_BOT_TOKEN is required');
+if (!mongoUri) throw new Error('MONGODB_URI is required');
 
-const client = new MongoClient(mongoUri);
-const db = client.db(dbName);
+const client = new MongoClient(mongoUri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  },
+  maxPoolSize: 10,
+  socketTimeoutMS: 30000,
+  connectTimeoutMS: 10000,
+});
+
+let db;
+try {
+  await client.connect();
+  db = client.db(dbName);
+  console.log('Successfully connected to MongoDB');
+} catch (error) {
+  console.error('MongoDB connection error:', error);
+  throw error;
+}
+
 const users = db.collection('users');
-
 const bot = new Bot(token);
 
 bot.on('message:text', async (ctx) => {
   const userId = ctx.from.id;
   const text = ctx.message.text;
 
-  let messageCount = 1;
-
   try {
-    const user = await users.findOne({ userId });
-    console.log('user', user);
-    messageCount = user?.messageCount || 1;
+    const updateResult = await users.updateOne(
+      { userId },
+      {
+        $set: { lastMessage: text, updatedAt: new Date() },
+        $inc: { messageCount: 1 },
+        $setOnInsert: { createdAt: new Date() }
+      },
+      { upsert: true }
+    );
 
-    if (user) {
-      await users.updateOne(
-        { userId },
-        {
-          $set: {
-            lastMessage: text,
-            updatedAt: new Date(),
-            messageCount: messageCount + 1,
-          },
-        }
-      );
-    } else {
-      await users.insertOne({
-        userId,
-        lastMessage: text,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        messageCount,
-      });
-    }
+    const messageCount = updateResult.upsertedCount > 0 
+      ? 1 
+      : (await users.findOne({ userId }))?.messageCount || 1;
+
+    await ctx.reply(`Ты написал: "${text}". Всего сообщений: ${messageCount}`);
   } catch (error) {
-    console.error('Ошибка при обновлении данных пользователя:', error);
+    console.error('Database operation failed:', error);
+    await ctx.reply('Произошла ошибка при обработке сообщения');
   }
-
-  const reply = `Ты написал: "${text}". Всего сообщений: ${messageCount}`;
-
-  await ctx.reply(reply);
 });
 
-try {
-  await client.connect();
-  console.log('Подключение к MongoDB установлено');
-} catch (error) {
-  console.error('Ошибка подключения к MongoDB:', error);
-}
-
-export const POST = webhookCallback(bot, 'std/http');
+export const POST = async (request: Request) => {
+  try {
+    return await webhookCallback(bot, 'std/http')(request);
+  } catch (error) {
+    console.error('Webhook processing error:', error);
+    return new Response('Internal Server Error', { status: 500 });
+  }
+};
