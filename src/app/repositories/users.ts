@@ -1,5 +1,5 @@
 
-import { User } from '@/services/telegram/session';
+import { User } from '@/types/types';
 import { getDB } from '../../services/db';
 
 export async function getUser(userId: number) {

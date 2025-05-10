@@ -1,7 +1,9 @@
 import { Bot } from 'grammy';
 import { getUser, updateUser } from '@/app/repositories/users';
 import { createMainMenu, createCancelKeyboard } from '../keyboards';
-import { Goal, GOAL_DICT, updateSession, getSession, User } from '../session';
+import { updateSession, getSession } from '../session';
+import { GOAL_DICT } from '@/lib/constants';
+import { Goal, User } from '@/types/types';
 
 export function setupBJUHandlers(bot: Bot) {
   bot.callbackQuery('menu_bju', async (ctx) => {
@@ -13,7 +15,7 @@ export function setupBJUHandlers(bot: Bot) {
         await ctx.answerCallbackQuery();
         await ctx.editMessageText(
           '⚠️ Для расчета БЖУ необходимо заполнить профиль.\n' +
-          'Пожалуйста, перейдите в раздел "Обо мне" и заполните все данные:\n\n' +
+          'Пожалуйста, перейдите в раздел "Ваш профиль" и заполните все данные:\n\n' +
           `- Возраст: ${user?.age ? '✅' : '❌'}\n` +
           `- Пол: ${user?.gender ? '✅' : '❌'}\n` +
           `- Цель: ${user?.goal ? '✅' : '❌'}\n` +
