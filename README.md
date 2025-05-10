@@ -5,7 +5,7 @@
 │   └── /bot
 │       └── route.ts
 ├── /services
-│   ├── db.ts
+│   ├── db.ts                # Подключение к базе данных
 │   └── telegram
 │       ├── core.ts          # Инициализация бота
 │       ├── handlers         # Обработчики разных типов сообщений
@@ -13,9 +13,9 @@
 │       │   ├── commands.ts
 │       │   └── buttons.ts
 │       └── keyboards.ts     # Генерация клавиатур
-├── /repositories
+├── /repositories            # Репозитории
 │   └── users.ts
-└── /utils
+└── /utils                   # Утилиты
     ├── types.ts            # Типы для Telegram
     └── helpers.ts
 
