@@ -6,7 +6,8 @@ export type CurrentMenu =
   | 'workout_strength'
   | 'workout_cardio'
   | 'menu_about'
-  | 'menu_edit_profile';
+  | 'menu_edit_profile'
+  | 'menu_bju';
 export type WorkoutType = 'strength' | 'cardio';
 export type EditProfileState =
   | 'editing_age'
@@ -40,6 +41,7 @@ export type UserSession = {
   workoutType?: WorkoutType | null;
   editProfile?: EditProfileState | null;
   editTempData: Partial<User>;
+  waitingForWeight?: boolean;
 };
 
 export const GOAL_DICT: Record<Goal, string> = {

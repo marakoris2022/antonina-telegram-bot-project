@@ -6,6 +6,8 @@ export function createMainMenu() {
     .text('Питание 🥗', 'menu_nutrition')
     .text('Прогресс 📊', 'menu_progress')
     .row()
+    .text('БЖУ 🍏', 'menu_bju')
+    .row()
     .text('Ваш профиль', 'menu_about');
 }
 
