@@ -11,7 +11,6 @@ const dbName = 'telegram_bot_db';
 if (!token || !mongoUri) throw new Error('Не хватает переменных окружения!');
 
 const client = new MongoClient(mongoUri);
-await client.connect();
 const db = client.db(dbName);
 const users = db.collection('users');
 
@@ -21,16 +20,47 @@ bot.on('message:text', async (ctx) => {
   const userId = ctx.from.id;
   const text = ctx.message.text;
 
-  await users.updateOne(
-    { userId },
-    { $set: { lastMessage: text, updatedAt: new Date() } },
-    { upsert: true }
-  );
+  let messageCount = 1;
 
-  const userData = await users.findOne({ userId });
-  const reply = `Ты написал: "${text}". Всего сообщений: ${userData?.messageCount || 1}`;
+  try {
+    const user = await users.findOne({ userId });
+    console.log('user', user);
+    messageCount = user?.messageCount || 1;
+
+    if (user) {
+      await users.updateOne(
+        { userId },
+        {
+          $set: {
+            lastMessage: text,
+            updatedAt: new Date(),
+            messageCount: messageCount + 1,
+          },
+        }
+      );
+    } else {
+      await users.insertOne({
+        userId,
+        lastMessage: text,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        messageCount,
+      });
+    }
+  } catch (error) {
+    console.error('Ошибка при обновлении данных пользователя:', error);
+  }
+
+  const reply = `Ты написал: "${text}". Всего сообщений: ${messageCount}`;
 
   await ctx.reply(reply);
 });
+
+try {
+  await client.connect();
+  console.log('Подключение к MongoDB установлено');
+} catch (error) {
+  console.error('Ошибка подключения к MongoDB:', error);
+}
 
 export const POST = webhookCallback(bot, 'std/http');
