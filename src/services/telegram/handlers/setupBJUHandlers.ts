@@ -13,7 +13,7 @@ export function setupBJUHandlers(bot: Bot) {
         await ctx.answerCallbackQuery();
         await ctx.editMessageText(
           '⚠️ Для расчета БЖУ необходимо заполнить профиль.\n' +
-          'Пожалуйста, перейдите в раздел "Обо мне" и заполните все данные:\n\n' +
+          'Пожалуйста, перейдите в раздел "Ваш профиль" и заполните все данные:\n\n' +
           `- Возраст: ${user?.age ? '✅' : '❌'}\n` +
           `- Пол: ${user?.gender ? '✅' : '❌'}\n` +
           `- Цель: ${user?.goal ? '✅' : '❌'}\n` +
