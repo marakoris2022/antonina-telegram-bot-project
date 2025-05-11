@@ -4,15 +4,10 @@ import { getDB } from '../../services/db';
 
 export async function getUser(userId: number) {
   const db = getDB();
-  const users = db.collection('users');
+  const users = db.collection<User>('users');
   
   try {
-    let user = await users.findOne({ userId });
-
-    if (!user) {
-      await createUser(userId);
-      user = await users.findOne({ userId });
-    }
+    const user = await users.findOne({ userId });
 
     return user;
   } catch (error) {
@@ -21,13 +16,13 @@ export async function getUser(userId: number) {
   }
 }
 
-export async function createUser(userId : number) {
+export async function createUser(user: User) {
   const db = getDB();
-  const users = db.collection('users');
+  const users = db.collection<User>('users');
   
   try {
-    const user = await users.insertOne({ userId, createdAt: new Date() });
-    return user;
+    const newUser = await users.insertOne(user);
+    return newUser.insertedId;
   } catch (error) {
     console.error('Database operation failed:', error);
     return null;
@@ -36,7 +31,7 @@ export async function createUser(userId : number) {
 
 export async function deleteUser(userId: number) {
   const db = getDB();
-  const users = db.collection('users');
+  const users = db.collection<User>('users');
   
   try {
     const user = await users.deleteOne({ userId });

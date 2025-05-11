@@ -63,3 +63,16 @@ export function createGoalKeyboard() {
     .row()
     .text('❌ Отменить', 'cancel_edit');
 }
+
+export function createActivityKeyboard() {
+  return new InlineKeyboard()
+    .text('1200', 'activity_sedentary')
+    .row()
+    .text('1375', 'activity_lightly_active')
+    .row()
+    .text('1550', 'activity_moderately_active')
+    .row()
+    .text('1725', 'activity_very_active')
+    .row()
+    .text('❌ Отменить', 'cancel_edit');
+}
