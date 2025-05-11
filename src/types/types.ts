@@ -20,6 +20,8 @@ export type EditProfileState =
 
 export type Goal = 'lose_weight' | 'gain_weight' | 'maintain_weight';
 export type Gender = 'male' | 'female';
+export type bjuSteps = 'weight' | 'activity';
+export type Activity = 'sedentary' | 'lightly_active' | 'moderately_active' | 'very_active';
 
 export type User = {
   userId: number;
@@ -34,6 +36,14 @@ export type User = {
   email?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  activity?: Activity;
+  lastBJU?: {
+    lastBJUDate: Date;
+    calories: number;
+    proteins: number;
+    fats: number;
+    carbs: number;
+  };
 };
 
 export type UserSession = {
@@ -41,6 +51,6 @@ export type UserSession = {
   workoutType?: WorkoutType | null;
   editProfile?: EditProfileState | null;
   editTempData: Partial<User>;
-  waitingForWeight?: boolean;
+  bjuStep?: bjuSteps | null;
   lastBotMessageId?: number;
 };

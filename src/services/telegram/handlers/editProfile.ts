@@ -81,7 +81,7 @@ export function setupProfileHandlers(bot: Bot) {
             if (isNaN(height)) throw new Error('Рост должен быть числом');
             session.editTempData!.height = height;
             session.editProfile = 'editing_phone';
-            await ctx.reply('Введите ваш номер телефона:', {
+            await ctx.reply('Введите ваш номер телефона: (можно не указывать)', {
               reply_markup: createCancelKeyboard(),
             });
             break;
@@ -89,7 +89,7 @@ export function setupProfileHandlers(bot: Bot) {
           case 'editing_phone':
             session.editTempData!.phoneNumber = text;
             session.editProfile = 'editing_email';
-            await ctx.reply('Введите вашу электронную почту:', {
+            await ctx.reply('Введите вашу электронную почту: (можно не указывать)', {
               reply_markup: createCancelKeyboard(),
             });
             break;
