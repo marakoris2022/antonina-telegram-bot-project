@@ -2,7 +2,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import { headerHeight, heroHeight } from '@/styles/mixins';
 
-export default function Hero() {
+export function Hero() {
   return (
     <Box
       sx={{
