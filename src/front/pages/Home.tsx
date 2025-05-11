@@ -17,6 +17,15 @@ import {
 } from '../widgets';
 import { palette } from '@/styles/mixins';
 
+const aboutStyles = {
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  backgroundColor: palette.primary[900],
+  color: palette.primary[100],
+};
+
 export default function Home() {
   return (
     <Box
@@ -30,18 +39,13 @@ export default function Home() {
     >
       <Hero />
       <Container maxWidth='lg'>
-        <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            backgroundColor: palette.primary[900],
-            color: palette.primary[100],
-          }}
-        >
+        <Box sx={aboutStyles}>
           <About />
-          <Services />
+        </Box>
+      </Container>
+      <Services />
+      <Container maxWidth='lg'>
+        <Box sx={aboutStyles}>
           <Benefits />
           <Testimonials />
           <Pricing />
