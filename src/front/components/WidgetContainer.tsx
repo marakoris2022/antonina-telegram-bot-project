@@ -14,7 +14,9 @@ export function WidgetContainer({
     <Box
       component='section'
       sx={{
-        py: 10,
+        position: 'relative',
+        py: 8,
+        px: 2,
         backgroundColor: bgColor || palette.primary[800],
         width: '100%',
         ...sx,
