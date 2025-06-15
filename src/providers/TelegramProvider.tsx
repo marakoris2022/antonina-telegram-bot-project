@@ -1,26 +1,32 @@
-// src/providers/TelegramProvider.tsx
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
+// Убедитесь, что ваш тип User соответствует данным, которые вы получаете от /api/user
 import { User } from '@/types/types';
+
+type TelegramUser = {
+  id: number;
+  first_name?: string;
+  last_name?: string;
+  username?: string;
+  language_code?: string;
+  is_premium?: boolean;
+  photo_url?: string; // Прямая ссылка на фото от Telegram
+};
 
 type TelegramContextType = {
   /** Основной объект WebApp (доступен после инициализации) */
   webApp?: typeof WebApp;
 
-  /** Данные пользователя (короткий доступ) */
-  user?: {
-    id: number;
-    first_name?: string;
-    last_name?: string;
-    username?: string;
-    language_code?: string;
-    is_premium?: boolean;
-  };
+  /** Данные пользователя (короткий доступ из initData) */
+  user?: TelegramUser;
 
-  /** Данные пользователя (полный доступ) */
+  /** Данные пользователя (полный доступ, например из вашей БД) */
   userData?: User | null;
+
+  /** URL фото профиля пользователя */
+  userPhotoUrl?: string;
 
   /** Загрузка */
   isLoading: boolean;
@@ -59,27 +65,47 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState<User | null>(null);
+  const [userPhotoUrl, setUserPhotoUrl] = useState<string | undefined>(
+    undefined
+  );
 
+  // Эффект для инициализации WebApp и установки начальных данных
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setWebApp(WebApp);
-      WebApp.ready();
-      setTheme(WebApp.colorScheme);
+      const app = WebApp;
+      app.ready();
+
+      setWebApp(app);
+      setTheme(app.colorScheme);
+
+      // Устанавливаем URL фото напрямую из данных, предоставленных Telegram
+      if (app.initDataUnsafe?.user?.photo_url) {
+        setUserPhotoUrl(app.initDataUnsafe.user.photo_url);
+      }
 
       // Слушаем изменения темы
-      WebApp.onEvent('themeChanged', () => {
-        setTheme(WebApp.colorScheme);
-      });
+      const onThemeChanged = () => {
+        setTheme(app.colorScheme);
+      };
+      app.onEvent('themeChanged', onThemeChanged);
+
       setIsLoading(false);
+
+      // Очистка при размонтировании компонента
+      return () => {
+        app.offEvent('themeChanged', onThemeChanged);
+      };
     }
   }, []);
 
+  // Эффект для получения дополнительных данных о пользователе с вашего бэкенда
   useEffect(() => {
     let isMounted = true;
 
-    async function getUserData() {
+    async function fetchUserData() {
       if (webApp?.initDataUnsafe?.user?.id) {
         try {
+          // Запрос за дополнительными данными (например, баланс, статус и т.д.)
           const response = await fetch(
             `/api/user?userId=${webApp.initDataUnsafe.user.id}`
           );
@@ -88,12 +114,12 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
 
-          const userData = await response.json();
-          if (isMounted && userData) {
-            setUserData(userData);
+          const data = await response.json();
+          if (isMounted && data) {
+            setUserData(data);
           }
         } catch (error) {
-          console.error('Error getting user data:', error);
+          console.error('Error fetching user data from backend:', error);
           if (isMounted) {
             setUserData(null);
           }
@@ -103,18 +129,22 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
       }
     }
 
-    getUserData();
+    // Запускаем получение данных только после инициализации webApp
+    if (webApp) {
+      fetchUserData();
+    }
 
     return () => {
       isMounted = false;
     };
-  }, [webApp?.initDataUnsafe?.user?.id]); // Зависимость от ID пользователя
+  }, [webApp]); // Зависимость от webApp, чтобы запустить после его появления
 
   /** Показать основную кнопку */
   const showMainButton = (text: string, callback: () => void) => {
     if (!webApp) return;
-
-    webApp.MainButton.setText(text).show().onClick(callback);
+    webApp.MainButton.setText(text);
+    webApp.MainButton.onClick(callback);
+    webApp.MainButton.show();
   };
 
   /** Скрыть основную кнопку */
@@ -140,14 +170,15 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
   /** Активировать кнопку "Назад" */
   const enableBackButton = (callback: () => void) => {
     if (!webApp) return;
-
-    webApp.BackButton.show().onClick(callback);
+    webApp.BackButton.onClick(callback);
+    webApp.BackButton.show();
   };
 
   const value = {
     webApp,
     user: webApp?.initDataUnsafe?.user,
     userData,
+    userPhotoUrl,
     isLoading,
     theme,
     startupParams: webApp?.initDataUnsafe?.start_param
@@ -170,11 +201,13 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-/** Хук для доступа к Telegram WebApp */
+/** Хук для доступа к контексту Telegram */
 export const useTelegram = () => {
   const context = useContext(TelegramContext);
-  if (!context.webApp) {
-    console.warn('Telegram WebApp not initialized!');
+  if (context === undefined) {
+    throw new Error('useTelegram must be used within a TelegramProvider');
   }
+  // Убрана проверка !context.webApp, так как начальное состояние может быть undefined
+  // и это нормально. Проверки на webApp должны быть внутри функций, которые его используют.
   return context;
 };

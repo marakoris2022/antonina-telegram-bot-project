@@ -15,7 +15,9 @@ import {
  * Страница профиля пользователя
  */
 export default function ProfilePage() {
-  const { user, isLoading } = useTelegram();
+  const { user, userPhotoUrl, isLoading } = useTelegram();
+
+  console.log('userPhotoUrl', userPhotoUrl);
 
   if (isLoading) {
     return <LoaderOverlay />;
@@ -35,18 +37,36 @@ export default function ProfilePage() {
       }}
     >
       <Box sx={{ textAlign: 'center', mb: 3 }}>
-        <Avatar
-          sx={{
-            width: 100,
-            height: 100,
-            mx: 'auto',
-            mb: 2,
-            bgcolor: 'primary.main',
-            fontSize: '2.5rem',
-          }}
-        >
-          {user.first_name?.[0] || 'П'}
-        </Avatar>
+        {userPhotoUrl ? (
+          <Box
+            component="img"
+            src={userPhotoUrl}
+            alt="Аватар"
+            sx={{
+              width: 100,
+              height: 100,
+              mx: 'auto',
+              mb: 2,
+              borderRadius: '50%',
+              objectFit: 'cover',
+              border: '2px solid',
+              borderColor: 'primary.main',
+            }}
+          />
+        ) : (
+          <Avatar
+            sx={{
+              width: 100,
+              height: 100,
+              mx: 'auto',
+              mb: 2,
+              bgcolor: 'primary.main',
+              fontSize: '2.5rem',
+            }}
+          >
+            {user.first_name?.[0] || 'П'}
+          </Avatar>
+        )}
 
         <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
           {user.first_name || 'Пользователь'} {user.last_name || ''}

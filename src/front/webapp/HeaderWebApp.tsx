@@ -10,7 +10,11 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
-import { mainBackgroundColor, textColorPrimary } from '@/styles/mixins';
+import {
+  mainBackgroundColor,
+  textColorPrimary,
+  textColorSecondary,
+} from '@/styles/mixins';
 import { Sidebar } from './Sidebar';
 import { useState } from 'react';
 
@@ -22,7 +26,13 @@ export const HeaderWebApp = () => {
   };
 
   return (
-    <AppBar sx={{ backgroundColor: mainBackgroundColor }} position='static'>
+    <AppBar
+      sx={{
+        backgroundColor: mainBackgroundColor,
+        borderBottom: `1px solid ${textColorSecondary}`,
+      }}
+      position='static'
+    >
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <IconButton

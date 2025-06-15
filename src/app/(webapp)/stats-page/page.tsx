@@ -9,28 +9,28 @@ import {
   palette,
   mainBackgroundPaper,
 } from '@/styles/mixins';
-// import {
-//   LineChart,
-//   Line,
-//   XAxis,
-//   YAxis,
-//   CartesianGrid,
-//   Tooltip,
-//   ResponsiveContainer,
-// } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 import { LoaderOverlay } from '@/front/components/LoaderOverlay';
 import { ErrorMessage } from '@/front/components/ErrorMessage';
 
 // Временные данные для графика
-// const data = [
-//   { name: 'Пн', value: 65 },
-//   { name: 'Вт', value: 59 },
-//   { name: 'Ср', value: 80 },
-//   { name: 'Чт', value: 81 },
-//   { name: 'Пт', value: 56 },
-//   { name: 'Сб', value: 55 },
-//   { name: 'Вс', value: 40 },
-// ];
+const data = [
+  { name: 'Пн', value: 65 },
+  { name: 'Вт', value: 59 },
+  { name: 'Ср', value: 80 },
+  { name: 'Чт', value: 81 },
+  { name: 'Пт', value: 56 },
+  { name: 'Сб', value: 55 },
+  { name: 'Вс', value: 40 },
+];
 
 /**
  * Страница статистики
@@ -67,7 +67,7 @@ export default function StatsPage() {
           Активность за неделю
         </Typography>
 
-        {/* <Box sx={{ height: 250, width: '100%' }}>
+        <Box sx={{ height: 250, width: '100%', display: 'flex', alignItems: 'flex-start' }}>
           <ResponsiveContainer width='100%' height='100%'>
             <LineChart data={data}>
               <CartesianGrid strokeDasharray='3 3' vertical={false} />
@@ -99,7 +99,7 @@ export default function StatsPage() {
               />
             </LineChart>
           </ResponsiveContainer>
-        </Box> */}
+        </Box>
       </Paper>
 
       <Box
