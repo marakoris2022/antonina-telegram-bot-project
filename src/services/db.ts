@@ -6,9 +6,13 @@ const dbName = 'telegram_bot_db';
 if (!mongoUri) throw new Error('MONGODB_URI is required');
 
 let client: MongoClient;
-let db: Db;
+let db: Db | null = null;
 
 export async function connectDB() {
+  if (db) {
+    return db;
+  }
+
   try {
     client = new MongoClient(mongoUri!, {
       serverApi: {
@@ -20,7 +24,7 @@ export async function connectDB() {
       socketTimeoutMS: 30000,
       connectTimeoutMS: 10000,
     });
-    
+
     await client.connect();
     db = client.db(dbName);
     console.log('Successfully connected to MongoDB');
@@ -31,7 +35,8 @@ export async function connectDB() {
   }
 }
 
-export function getDB() {
+export async function getDB() {
+  const db = await connectDB();
   if (!db) throw new Error('Database not connected');
   return db;
 }

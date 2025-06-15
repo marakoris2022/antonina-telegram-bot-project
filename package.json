@@ -17,6 +17,7 @@
     "@mui/material": "^7.1.0",
     "@mui/material-nextjs": "^7.1.0",
     "@mui/styled-engine-sc": "^7.1.0",
+    "@twa-dev/sdk": "^8.0.2",
     "framer-motion": "^12.12.2",
     "grammy": "^1.36.1",
     "mongodb": "^6.16.0",

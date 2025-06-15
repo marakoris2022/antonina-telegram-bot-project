@@ -32,9 +32,37 @@ export const palette = {
     200: '#f0f0f0',
     100: '#ffffff',
   },
+  error: {
+    900: '#111111',
+    800: '#2c2c2c',
+    700: '#444444',
+    600: '#666666',
+    500: '#999999',
+    400: '#bbbbbb',
+    300: '#dddddd',
+    200: '#f0f0f0',
+    100: '#ffffff',
+  },
+  success: {
+    900: '#111111',
+    800: '#2c2c2c',
+    700: '#444444',
+    600: '#666666',
+    500: '#999999',
+    400: '#bbbbbb',
+    300: '#dddddd',
+    200: '#f0f0f0',
+    100: '#ffffff',
+  },
 };
 
 export const mainBackgroundColor = palette.primary[900];
+export const mainBackgroundPaper = palette.primary[800];
+export const textColorPrimary = palette.primary[100];
+export const textColorSecondary = palette.primary[200];
+export const textColorAccent = palette.primary[300];
+export const textColorError = palette.error[400];
+export const textColorSuccess = palette.success[400];
 export const headerHeight = '80px';
 export const headerZIndex = 3;
 export const heroHeight = `calc(100vh - ${headerHeight})`;

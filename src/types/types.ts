@@ -25,8 +25,10 @@ export type Activity = 'sedentary' | 'lightly_active' | 'moderately_active' | 'v
 
 export type User = {
   userId: number;
+  username?: string;
   firstName?: string;
   lastName?: string;
+  userLang?: string;
   age?: number;
   gender?: Gender;
   goal?: Goal;

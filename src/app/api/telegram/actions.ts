@@ -1,9 +1,9 @@
 
+import { getDB } from '@/services/db';
 import { User } from '@/types/types';
-import { getDB } from '../../services/db';
 
 export async function getUser(userId: number) {
-  const db = getDB();
+  const db = await getDB();
   const users = db.collection<User>('users');
   
   try {
@@ -17,7 +17,7 @@ export async function getUser(userId: number) {
 }
 
 export async function createUser(user: User) {
-  const db = getDB();
+  const db = await getDB();
   const users = db.collection<User>('users');
   
   try {
@@ -30,7 +30,7 @@ export async function createUser(user: User) {
 }
 
 export async function deleteUser(userId: number) {
-  const db = getDB();
+  const db = await getDB();
   const users = db.collection<User>('users');
   
   try {
@@ -43,7 +43,7 @@ export async function deleteUser(userId: number) {
 }
 
 export async function updateUser(userId: number, update: Partial<User>) {
-  const db = getDB();
+  const db = await getDB();
   const users = db.collection<User>('users');
   
   try {
