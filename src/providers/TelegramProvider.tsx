@@ -54,6 +54,9 @@ type TelegramContextType = {
 
   /** Параметры запуска (можно использовать для передачи данных из бота) */
   startupParams: Record<string, string>;
+
+  /** Обновление данных пользователя */
+  updateUser: (data: User) => void;
 };
 
 const TelegramContext = createContext<TelegramContextType>(
@@ -139,6 +142,10 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
     };
   }, [webApp]); // Зависимость от webApp, чтобы запустить после его появления
 
+  const updateUser = async (data: User) => {
+    setUserData(data);
+  };
+
   /** Показать основную кнопку */
   const showMainButton = (text: string, callback: () => void) => {
     if (!webApp) return;
@@ -192,6 +199,7 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
     closeApp,
     sendDataToBot,
     enableBackButton,
+    updateUser,
   };
 
   return (

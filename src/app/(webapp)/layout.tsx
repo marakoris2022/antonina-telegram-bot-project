@@ -18,9 +18,29 @@ export const metadata: Metadata = {
 import { HeaderWebApp } from '@/front/webapp/HeaderWebApp';
 import { FooterWebApp } from '@/front/webapp/FooterWebApp';
 
-export default function RootLayout(props: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang='en' suppressHydrationWarning>
+      <head>
+        <link rel='preconnect' href='https://fonts.googleapis.com' />
+        <link
+          rel='preconnect'
+          href='https://fonts.gstatic.com'
+          crossOrigin='anonymous'
+        />
+        <link
+          rel='stylesheet'
+          href='https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'
+        />
+        <link
+          rel='stylesheet'
+          href='https://fonts.googleapis.com/icon?family=Material+Icons'
+        />
+      </head>
       <body>
         <InitColorSchemeScript attribute='class' />
         <TelegramProvider>
@@ -38,7 +58,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                 component='main'
                 sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}
               >
-                {props.children}
+                {children}
               </Box>
               <FooterWebApp />
             </Box>

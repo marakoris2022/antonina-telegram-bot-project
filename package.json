@@ -13,11 +13,12 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@fontsource/roboto": "^5.2.5",
-    "@mui/icons-material": "^7.1.0",
+    "@mui/icons-material": "^7.1.2",
     "@mui/material": "^7.1.0",
     "@mui/material-nextjs": "^7.1.0",
     "@mui/styled-engine-sc": "^7.1.0",
     "@twa-dev/sdk": "^8.0.2",
+    "formik": "^2.4.6",
     "framer-motion": "^12.12.2",
     "grammy": "^1.36.1",
     "mongodb": "^6.16.0",
@@ -26,7 +27,8 @@
     "react-dom": "^19.0.0",
     "recharts": "^2.15.3",
     "styled-components": "^6.1.18",
-    "swiper": "^11.2.8"
+    "swiper": "^11.2.8",
+    "yup": "^1.6.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
