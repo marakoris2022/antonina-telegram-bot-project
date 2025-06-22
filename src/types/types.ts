@@ -39,6 +39,7 @@ export type User = {
   createdAt?: Date;
   updatedAt?: Date;
   activity?: Activity;
+  role?: 'user' | 'admin' | 'moderator';
   lastBJU?: {
     lastBJUDate: Date;
     calories: number;

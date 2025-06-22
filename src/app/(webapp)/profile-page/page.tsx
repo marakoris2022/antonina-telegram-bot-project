@@ -3,27 +3,34 @@
 import { useTelegram } from '@/providers/TelegramProvider';
 import { LoaderOverlay } from '@/front/components/LoaderOverlay';
 import { ErrorMessage } from '@/front/components/ErrorMessage';
-import { Box, Typography, Avatar, Paper, Button, Divider } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Avatar,
+  Paper,
+  Button,
+  Divider,
+  Chip,
+} from '@mui/material';
 import {
   mainBackgroundColor,
   mainBackgroundPaper,
   textColorPrimary,
   textColorSecondary,
 } from '@/styles/mixins';
+import Link from 'next/link';
 
 /**
  * Страница профиля пользователя
  */
 export default function ProfilePage() {
-  const { user, userPhotoUrl, isLoading } = useTelegram();
-
-  console.log('userPhotoUrl', userPhotoUrl);
+  const { user, userData, userPhotoUrl, isLoading } = useTelegram();
 
   if (isLoading) {
     return <LoaderOverlay />;
   }
 
-  if (!user) {
+  if (!user || !userData) {
     return <ErrorMessage message='Пользователь не найден' />;
   }
 
@@ -39,9 +46,9 @@ export default function ProfilePage() {
       <Box sx={{ textAlign: 'center', mb: 3 }}>
         {userPhotoUrl ? (
           <Box
-            component="img"
+            component='img'
             src={userPhotoUrl}
-            alt="Аватар"
+            alt='Аватар'
             sx={{
               width: 100,
               height: 100,
@@ -68,15 +75,31 @@ export default function ProfilePage() {
           </Avatar>
         )}
 
-        <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+        <Typography variant='h5' sx={{ fontWeight: 'bold', mb: 1 }}>
           {user.first_name || 'Пользователь'} {user.last_name || ''}
         </Typography>
 
-        {user.username && (
-          <Typography variant='body2' color={textColorSecondary}>
-            @{user.username}
-          </Typography>
-        )}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 1,
+            width: '100%',
+          }}
+        >
+          {user.username && (
+            <Typography variant='body2' color={textColorSecondary}>
+              @{user.username}
+            </Typography>
+          )}
+
+          <Chip
+            size='small'
+            label={userData.role || 'user'}
+            color='secondary'
+          />
+        </Box>
       </Box>
 
       <Paper sx={{ p: 2, mb: 2, bgcolor: mainBackgroundPaper }}>
@@ -87,7 +110,7 @@ export default function ProfilePage() {
           Информация о профиле
         </Typography>
 
-        <Box sx={{ mb: 2 }}>
+        <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
           <Typography variant='caption' color={textColorSecondary}>
             ID пользователя
           </Typography>
@@ -97,7 +120,7 @@ export default function ProfilePage() {
         </Box>
 
         {user.language_code && (
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant='caption' color={textColorSecondary}>
               Язык
             </Typography>
@@ -109,9 +132,11 @@ export default function ProfilePage() {
 
         <Divider sx={{ my: 2 }} />
 
-        <Button variant='outlined' fullWidth sx={{ mt: 2 }}>
-          Редактировать профиль
-        </Button>
+        <Link href='/settings-page'>
+          <Button variant='outlined' fullWidth sx={{ mb: 1 }}>
+            Редактировать профиль
+          </Button>
+        </Link>
       </Paper>
 
       <Paper sx={{ p: 2, bgcolor: mainBackgroundPaper }}>
