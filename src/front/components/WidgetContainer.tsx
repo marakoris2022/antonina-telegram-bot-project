@@ -1,28 +1,28 @@
-import { palette } from '@/styles/mixins';
-import { Box, SxProps } from '@mui/material';
+import { cn } from "@/lib/utils"
+import { ReactNode } from "react"
 
-export function WidgetContainer({
-  children,
-  bgColor,
-  sx,
-}: {
-  children: React.ReactNode;
-  bgColor?: string;
-  sx?: SxProps;
-}) {
+interface WidgetContainerProps {
+  children: ReactNode
+  className?: string
+  id?: string
+}
+
+export function WidgetContainer({ 
+  children, 
+  className,
+  id 
+}: WidgetContainerProps) {
   return (
-    <Box
-      component='section'
-      sx={{
-        position: 'relative',
-        py: 8,
-        px: 2,
-        backgroundColor: bgColor || palette.primary[800],
-        width: '100%',
-        ...sx,
-      }}
+    <section 
+      id={id}
+      className={cn(
+        "w-full py-16 md:py-24 lg:py-32",
+        className
+      )}
     >
-      {children}
-    </Box>
-  );
+      <div className="container px-4 md:px-6">
+        {children}
+      </div>
+    </section>
+  )
 }

@@ -1,13 +1,5 @@
 import type { Metadata } from 'next';
-import { Box, CssBaseline, InitColorSchemeScript } from '@mui/material';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import '../globals.css';
-import Header from '@/front/components/Header';
-import Footer from '@/front/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Antonina Fitness Instructor',
@@ -38,25 +30,7 @@ export default function RootLayout({
           href='https://fonts.googleapis.com/icon?family=Material+Icons'
         />
       </head>
-      <body>
-        <InitColorSchemeScript attribute='class' />
-        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-          <CssBaseline />
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: '100vh',
-            }}
-          >
-            <Header />
-            <Box component='main' sx={{ flex: 1 }}>
-              {children}
-            </Box>
-            <Footer />
-          </Box>
-        </AppRouterCacheProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

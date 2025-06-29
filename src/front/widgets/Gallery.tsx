@@ -1,7 +1,6 @@
-import { palette } from '@/styles/mixins';
-import { Box, Typography } from '@mui/material';
-import Image from 'next/image';
+import { motion } from 'framer-motion';
 import { WidgetContainer } from '../components/WidgetContainer';
+import { GalleryItem } from '../components/ui/GalleryItem';
 
 export function Gallery() {
   const images = [
@@ -14,53 +13,36 @@ export function Gallery() {
   ];
 
   return (
-    <WidgetContainer>
-      <Typography
-        variant='h3'
-        component='h2'
-        gutterBottom
-        textAlign='center'
-        color={palette.secondary[400]}
-      >
-        Галерея
-      </Typography>
+    <WidgetContainer className="py-16 md:py-24 bg-primary-800">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.h2 
+          className="text-3xl sm:text-4xl font-bold text-center text-secondary-400 mb-12 relative pb-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          Галерея
+          <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-secondary-500 rounded-full"></span>
+        </motion.h2>
 
-      <Box
-        sx={{
-          display: 'grid',
-          gridTemplateColumns: {
-            xs: '1fr',
-            sm: 'repeat(2, 1fr)',
-            md: 'repeat(3, 1fr)',
-          },
-          gap: 2,
-          mt: 4,
-        }}
-      >
-        {images.map((image, index) => (
-          <Box
-            key={index}
-            sx={{
-              position: 'relative',
-              height: 300,
-              borderRadius: 2,
-              overflow: 'hidden',
-              '&:hover': {
-                transform: 'scale(1.02)',
-                transition: 'transform 0.3s',
-              },
-            }}
-          >
-            <Image
+        <motion.div 
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1, duration: 0.6 }}
+        >
+          {images.map((image, index) => (
+            <GalleryItem
+              key={index}
               src={image.src}
               alt={image.alt}
-              fill
-              style={{ objectFit: 'cover' }}
-              sizes='(max-width: 768px) 100vw, 33vw'
+              priority={index < 3}
             />
-          </Box>
-        ))}
-      </Box>
+          ))}
+        </motion.div>
+      </div>
     </WidgetContainer>
   );
 }

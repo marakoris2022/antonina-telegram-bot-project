@@ -1,43 +1,430 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Основные цвета */
+    --background: 255 250 250;
+    --foreground: 30 5 5;
+    
+    /* Карточки и всплывающие элементы */
+    --card: 255 255 255;
+    --card-foreground: 30 5 5;
+    --popover: 255 255 255;
+    --popover-foreground: 30 5 5;
+    
+    /* Основные акцентные цвета - красные оттенки */
+    --primary: 254 226 226;
+    --primary-hovered: 254 202 202 / 0.9;
+    --primary-foreground: 185 28 28;
+    --primary-background: 185 28 28;
+    
+    /* Вторичные цвета - бордовые оттенки */
+    --secondary: 190 18 60;
+    --secondary-foreground: 255 255 255;
+    
+    /* Приглушенные цвета */
+    --muted: 245 243 250;
+    --muted-foreground: 113 113 122;
+    
+    /* Акцентные элементы */
+    --accent: 240 240 250;
+    --accent-foreground: 106 72 203;
+    
+    /* Деструктивные действия */
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: hsl(210, 40%, 98%);
+    --border: #cbd5e1;
+    --input: hsl(214.3, 31.8%, 91.4%);
+    --ring: #cbd5e1;
+    --radius: 0.5rem;
+    --chart-1: #7c3aed;
+    --chart-2: hsl(173, 58%, 39%);
+    --chart-3: hsl(197, 33%, 42%);
+    --chart-4: hsl(43, 74%, 66%);
+    --chart-5: hsl(27, 87%, 67%);
+    --success: #16a34a;
+    --success-background-lite: #f0fdf4;
+    --success-dark: #1b5e20;
+    --success-background: rgba(22, 163, 74, 0.1);
+    --sunset-gold: #d7a60a;
+    --sunset-background: #f5e8c2;
+    --pause-background: #ff6f00;
+    --error: #d32f2f;
+    --error-background: rgba(220, 38, 38, 0.2);
+    --link-text: #2563eb;
+    --link-background: #e0efff;
+    --icon-background: rgba(173, 171, 171, 0.2);
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 237, 233, 254, 1;
+    --sidebar-accent-hovered: 237, 233, 254, 0.8;
+    --sidebar-accent-foreground: 124, 58, 237, 1;
+    --sidebar-accent-foreground-hovered: 124, 58, 237, 0.8;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-width: 16rem;
+  }
+
+  .dark {
+    --background: #111115;
+    --foreground: hsl(210, 40%, 98%);
+    --card: #111115;
+    --card-foreground: hsl(210, 40%, 98%);
+    --popover: hsl(222.2, 84%, 4.9%);
+    --popover-foreground: hsl(210, 40%, 98%);
+    /* Dark mode primary color updated */
+    --primary: 76 29 149;
+    --primary-hovered: 76 29 149 / 0.1;
+    --primary-foreground: #7c3aed;
+    --primary-background: #53389f;
+    --secondary: 83 56 159;
+    --secondary-foreground: hsl(210, 40%, 98%);
+    --muted: hsl(217.2, 32.6%, 17.5%);
+    --muted-foreground: #a3a3a3;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: hsl(210, 40%, 98%);
+    --border: #262626;
+    --input: hsl(217.2, 32.6%, 17.5%);
+    --ring: #525252;
+    --chart-1: #7c3aed;
+    --chart-2: hsl(160, 60%, 45%);
+    --chart-3: hsl(30, 80%, 55%);
+    --chart-4: hsl(280, 65%, 60%);
+    --chart-5: hsl(340, 75%, 55%);
+    --success: #2e7d32;
+    --success-background: rgba(22, 163, 74, 0.2);
+    --success-dark: #1b5e20;
+    --sunset-gold: #ca8a04;
+    --sunset-background: rgba(202, 138, 4, 0.1);
+    --pause-background: #ff6f00;
+    --error: #d32f2f;
+    --error-background: rgba(220, 38, 38, 0.2);
+    --link-text: #2563eb;
+    --link-background: rgba(37, 99, 235, 0.2);
+    --icon-background: rgba(255, 255, 255, 0.1);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 76, 29, 149, 0.2;
+    --sidebar-accent-hovered: 76, 29, 149, 0.1;
+    --sidebar-accent-foreground: 124, 58, 237, 1;
+    --sidebar-accent-foreground-hovered: 124, 58, 237, 0.8;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-width: 16rem;
   }
 }
 
-html {
-  height: 100%;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 body {
-  position: relative;
-  min-height: 100%;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: 'Roboto', Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   margin: 0;
-  padding: 0;
-  display: block;
 }
 
-* {
+.lds-spinner,
+.lds-spinner div,
+.lds-spinner div:after {
   box-sizing: border-box;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.lds-spinner {
+  color: currentColor;
+  display: inline-block;
+  position: relative;
+  font-size: 10px;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.lds-spinner div {
+  transform-origin: 4em 4em;
+  animation: lds-spinner 1.2s linear infinite;
+}
+
+.lds-spinner div:after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0.32em;
+  left: 3.68em;
+  width: 0.64em;
+  height: 1.76em;
+  border-radius: 20%;
+  background: currentColor;
+}
+
+.lds-spinner div:nth-child(1) {
+  transform: rotate(0deg);
+  animation-delay: -1.1s;
+}
+
+.lds-spinner div:nth-child(2) {
+  transform: rotate(30deg);
+  animation-delay: -1s;
+}
+
+.lds-spinner div:nth-child(3) {
+  transform: rotate(60deg);
+  animation-delay: -0.9s;
+}
+
+.lds-spinner div:nth-child(4) {
+  transform: rotate(90deg);
+  animation-delay: -0.8s;
+}
+
+.lds-spinner div:nth-child(5) {
+  transform: rotate(120deg);
+  animation-delay: -0.7s;
+}
+
+.lds-spinner div:nth-child(6) {
+  transform: rotate(150deg);
+  animation-delay: -0.6s;
+}
+
+.lds-spinner div:nth-child(7) {
+  transform: rotate(180deg);
+  animation-delay: -0.5s;
+}
+
+.lds-spinner div:nth-child(8) {
+  transform: rotate(210deg);
+  animation-delay: -0.4s;
+}
+
+.lds-spinner div:nth-child(9) {
+  transform: rotate(240deg);
+  animation-delay: -0.3s;
+}
+
+.lds-spinner div:nth-child(10) {
+  transform: rotate(270deg);
+  animation-delay: -0.2s;
+}
+
+.lds-spinner div:nth-child(11) {
+  transform: rotate(300deg);
+  animation-delay: -0.1s;
+}
+
+.lds-spinner div:nth-child(12) {
+  transform: rotate(330deg);
+  animation-delay: 0s;
+}
+
+@keyframes lds-spinner {
+  0% {
+    opacity: 1;
   }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+/*.lucide {*/
+/*  width: 20px;*/
+/*}*/
+
+/* Spinner sizes */
+.lds-spinner.w-5 {
+  width: 2.5em;
+  height: 2.5em;
+  font-size: 2px;
+}
+
+.lds-spinner.w-5 div {
+  transform-origin: 1.25em 1.25em;
+}
+
+.lds-spinner.w-5 div:after {
+  top: 0.1em;
+  left: 1.15em;
+  width: 0.2em;
+  height: 0.55em;
+}
+
+.lds-spinner.w-10 {
+  width: 5em;
+  height: 5em;
+  font-size: 4px;
+}
+
+.lds-spinner.w-10 div {
+  transform-origin: 2.5em 2.5em;
+}
+
+.lds-spinner.w-10 div:after {
+  top: 0.2em;
+  left: 2.3em;
+  width: 0.4em;
+  height: 1.1em;
+}
+
+.lds-spinner.w-16 {
+  width: 8em;
+  height: 8em;
+  font-size: 6px;
+}
+
+.lds-spinner.w-16 div {
+  transform-origin: 4em 4em;
+}
+
+.lds-spinner.w-16 div:after {
+  top: 0.32em;
+  left: 3.68em;
+  width: 0.64em;
+  height: 1.76em;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom styles for AG Grid to adapt to theme */
+.ag-theme-alpine {
+  --ag-header-height: 60px;
+  --ag-border-color: var(--border);
+  --ag-header-background-color: var(--background);
+  --ag-background-color: var(--background);
+  --ag-foreground-color: var(--foreground);
+  --ag-secondary-foreground-color: var(--muted-foreground);
+  --ag-row-hover-color: var(--muted);
+  --ag-header-foreground-color: var(--foreground);
+  --ag-odd-row-background-color: var(--background);
+  --ag-even-row-background-color: var(--background);
+  --ag-cell-horizontal-border: var(--border);
+  --ag-row-border-color: var(--border);
+
+  /* Remove border from root wrapper */
+  .ag-theme-alpine .ag-root-wrapper {
+    border: none !important;
+  }
+
+  /* Remove border from root wrapper and main containers */
+  .ag-root-wrapper {
+    border: none !important;
+  }
+
+  .ag-root {
+    border: none !important;
+  }
+
+  .ag-header {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  .ag-body-viewport {
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  .ag-body-horizontal-scroll-viewport {
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+  }
+}
+
+/* Header styling */
+.ag-theme-alpine .ag-header {
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+
+.ag-theme-alpine .ag-header-cell {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--foreground);
+  background-color: var(--background);
+  padding: 0 24px;
+  border-right: 1px solid var(--border);
+  text-align: center;
+  justify-content: center;
+}
+
+.ag-theme-alpine .ag-header-cell-text {
+  color: var(--foreground);
+  text-align: center;
+}
+
+/* Cell styling with centering */
+.ag-theme-alpine .ag-cell {
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  color: var(--foreground);
+  background-color: var(--background);
+  text-align: center;
+}
+
+/* Row styling */
+.ag-theme-alpine .ag-row {
+  border-bottom: 1px solid var(--border);
+  background-color: var(--background);
+}
+
+.ag-theme-alpine .ag-row:hover {
+  background-color: var(--muted);
+}
+
+/* Fix backgrounds */
+.ag-theme-alpine .ag-center-cols-container,
+.ag-theme-alpine .ag-center-cols-viewport,
+.ag-theme-alpine .ag-body-viewport,
+.ag-theme-alpine .ag-body-horizontal-scroll-viewport,
+.ag-theme-alpine .ag-body-vertical-scroll-viewport,
+.ag-theme-alpine .ag-center-cols-clipper,
+.ag-theme-alpine .ag-root-wrapper,
+.ag-theme-alpine .ag-body,
+.ag-theme-alpine .ag-body-container,
+.ag-theme-alpine .ag-floating-top,
+.ag-theme-alpine .ag-floating-bottom,
+.ag-theme-alpine .ag-overlay-wrapper {
+  background-color: var(--background) !important;
+}
+
+/* Scrollbar styling */
+.ag-theme-alpine .ag-body-horizontal-scroll,
+.ag-theme-alpine .ag-body-vertical-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted-foreground) transparent;
+}
+
+/* Style scrollbar with a 6px width and height for horizontal and vertical 
+   scroll in the ag-theme-alpine theme */
+.ag-theme-alpine .ag-body-horizontal-scroll::-webkit-scrollbar,
+.ag-theme-alpine .ag-body-vertical-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.ag-theme-alpine .ag-body-horizontal-scroll::-webkit-scrollbar-thumb,
+.ag-theme-alpine .ag-body-vertical-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--muted-foreground);
+  border-radius: 3px;
 }
